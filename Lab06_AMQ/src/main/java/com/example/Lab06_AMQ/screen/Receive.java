@@ -94,45 +94,32 @@ public class Receive extends JFrame {
 
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String ms = contentPane.getToolTipText().toString();
+				String ms = textField.getText().toString();
 				try {
 //					callSub();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				contentPane.setToolTipText(ms);
+				textArea.setText(ms);
 
 			}
 		});
 	}
 	public void callSub() throws Exception {
-
 		BasicConfigurator.configure();
-
 		Properties settings = new Properties();
 		settings.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
-		settings.setProperty(Context.PROVIDER_URL, "tcp://localhost:61616");
-
+		settings.setProperty(Context.PROVIDER_URL, "tcp://localhost:8161");
 		Context ctx = new InitialContext(settings);
-
 		Object obj = ctx.lookup("ConnectionFactory");
 		ConnectionFactory factory = (ConnectionFactory) obj;
-
 		Destination destination = (Destination) ctx.lookup("dynamicQueues/thanthidet");
-
 		Connection con = factory.createConnection("admin", "admin");
-
 		con.start();
-
 		Session session = con.createSession(/* transaction */false, /* ACK */Session.CLIENT_ACKNOWLEDGE);
-
 		MessageConsumer receiver = session.createConsumer(destination);
-
 		System.out.println("Tý was listened on queue...");
 		receiver.setMessageListener(new MessageListener() {
-
-
 			public void onMessage(Message msg) {
 				try {
 					if (msg instanceof TextMessage) {

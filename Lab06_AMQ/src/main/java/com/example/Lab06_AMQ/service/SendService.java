@@ -1,4 +1,4 @@
-package com.example.Lab06_AMQ.server;
+package com.example.Lab06_AMQ.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
